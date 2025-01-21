@@ -75,26 +75,26 @@
             var description = document.getElementById('description').value;
             var location = document.getElementById('location').value;
 
-            fetch("https://script.google.com/macros/s/AKfycbwC-VdOIMVz3Xs2qAU1vZxlJBCf5TZ5ZL8iO3M1z9uE/dev", {
-                method: "POST",
-                body: JSON.stringify({ 
-                    point: point, 
-                    northing: northing, 
-                    easting: easting, 
-                    elevation: elevation, 
-                    description: description, 
-                    location: location 
-                }),
-                headers: { "Content-Type": "application/json" }
-            })
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('message').innerText = "تم الحفظ بنجاح!";
-                document.getElementById('dataForm').reset();
-            })
-            .catch(error => {
-                document.getElementById('message').innerText = "حدث خطأ أثناء الحفظ.";
-            });
+          
+fetch("https://script.google.com/macros/s/AKfycbwC-VdOIMVz3Xs2qAU1vZxlJBCf5TZ5ZL8iO3M1z9uE/dev", {
+    method: "POST",
+    body: JSON.stringify({ 
+        point: point, 
+        northing: northing, 
+        easting: easting, 
+        elevation: elevation, 
+        description: description, 
+        location: location 
+    }),
+    headers: { "Content-Type": "application/json" }
+})
+.then(() => {
+    document.getElementById('message').innerText = "تم الحفظ بنجاح!";
+    document.getElementById('dataForm').reset();
+})
+.catch(error => {
+    document.getElementById('message').innerText = "حدث خطأ أثناء الحفظ.";
+});
         });
     </script>
 </body>
