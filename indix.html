@@ -3,99 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إدخال بيانات المساحة</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 50px;
-            background-color: #f4f4f4;
-        }
-        .container {
-            max-width: 400px;
-            padding: 20px;
-            background: #fff;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            border-radius: 8px;
-        }
-        input, button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-        }
-        button {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        #message {
-            margin-top: 15px;
-            font-weight: bold;
-        }
-    </style>
+    <title>Data Entry Form</title>
 </head>
 <body>
-    <div class="container">
-        <h2>إدخال بيانات المساحة</h2>
-        <form id="dataForm">
-            <label for="point">Point:</label>
-            <input type="text" id="point" required>
+    <h2>Enter Data</h2>
+    <form id="dataForm">
+        <label for="point">Point Name:</label><br>
+        <input type="text" id="point" name="point"><br><br>
+        
+        <label for="northing">Northing:</label><br>
+        <input type="text" id="northing" name="northing"><br><br>
+        
+        <label for="easting">Easting:</label><br>
+        <input type="text" id="easting" name="easting"><br><br>
+        
+        <label for="elevation">Elevation:</label><br>
+        <input type="text" id="elevation" name="elevation"><br><br>
+        
+        <label for="description">Description:</label><br>
+        <textarea id="description" name="description"></textarea><br><br>
+        
+        <label for="location">Location:</label><br>
+        <input type="text" id="location" name="location"><br><br>
+        
+        <button type="button" onclick="submitData()">Save</button>
+    </form>
 
-            <label for="northing">Northing:</label>
-            <input type="text" id="northing" required>
-
-            <label for="easting">Easting:</label>
-            <input type="text" id="easting" required>
-
-            <label for="elevation">Elevation:</label>
-            <input type="text" id="elevation" required>
-
-            <label for="description">Description:</label>
-            <input type="text" id="description" required>
-
-            <label for="location">Location:</label>
-            <input type="text" id="location" required>
-
-            <button type="submit">حفظ</button>
-        </form>
-        <p id="message"></p>
-    </div>
+    <div id="message"></div>
 
     <script>
-        document.getElementById('dataForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+        function submitData() {
+            var point = document.getElementById("point").value;
+            var northing = document.getElementById("northing").value;
+            var easting = document.getElementById("easting").value;
+            var elevation = document.getElementById("elevation").value;
+            var description = document.getElementById("description").value;
+            var location = document.getElementById("location").value;
 
-            var point = document.getElementById('point').value;
-            var northing = document.getElementById('northing').value;
-            var easting = document.getElementById('easting').value;
-            var elevation = document.getElementById('elevation').value;
-            var description = document.getElementById('description').value;
-            var location = document.getElementById('location').value;
-
-          
-fetch("https://script.google.com/macros/s/AKfycbwC-VdOIMVz3Xs2qAU1vZxlJBCf5TZ5ZL8iO3M1z9uE/dev", {
-    method: "POST",
-    body: JSON.stringify({ 
-        point: point, 
-        northing: northing, 
-        easting: easting, 
-        elevation: elevation, 
-        description: description, 
-        location: location 
-    }),
-    headers: { "Content-Type": "application/json" }
-})
-.then(() => {
-    document.getElementById('message').innerText = "تم الحفظ بنجاح!";
-    document.getElementById('dataForm').reset();
-})
-.catch(error => {
-    document.getElementById('message').innerText = "حدث خطأ أثناء الحفظ.";
-});
-        });
+            // إرسال البيانات عبر POST إلى Google Apps Script
+            fetch("https://script.google.com/macros/s/AKfycbxap9REcNmImMklWj27U9CQ2A3cdFrgM_POUawe_Qye22JUgQCD6SmstuVfQrw_mWgKBA/exec", {
+                method: "POST",
+                body: JSON.stringify({ 
+                    point: point, 
+                    northing: northing, 
+                    easting: easting, 
+                    elevation: elevation, 
+                    description: description, 
+                    location: location 
+                }),
+                headers: { "Content-Type": "application/json" }
+            })
+            .then(() => {
+                document.getElementById('message').innerText = "تم الحفظ بنجاح!";
+                document.getElementById('dataForm').reset();
+            })
+            .catch(error => {
+                document.getElementById('message').innerText = "حدث خطأ أثناء الحفظ.";
+            });
+        }
     </script>
 </body>
 </html>
