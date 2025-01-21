@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدخال بيانات المساحة</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 400px;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #message {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>إدخال بيانات المساحة</h2>
+        <form id="dataForm">
+            <label for="point">Point:</label>
+            <input type="text" id="point" required>
+
+            <label for="northing">Northing:</label>
+            <input type="text" id="northing" required>
+
+            <label for="easting">Easting:</label>
+            <input type="text" id="easting" required>
+
+            <label for="elevation">Elevation:</label>
+            <input type="text" id="elevation" required>
+
+            <label for="description">Description:</label>
+            <input type="text" id="description" required>
+
+            <label for="location">Location:</label>
+            <input type="text" id="location" required>
+
+            <button type="submit">حفظ</button>
+        </form>
+        <p id="message"></p>
+    </div>
+
+    <script>
+        document.getElementById('dataForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            var point = document.getElementById('point').value;
+            var northing = document.getElementById('northing').value;
+            var easting = document.getElementById('easting').value;
+            var elevation = document.getElementById('elevation').value;
+            var description = document.getElementById('description').value;
+            var location = document.getElementById('location').value;
+
+            fetch("AKfycbzjLogPsAW_QwPUqoXxfyjPi2pbYo6TgguSx7wbAFlaq3ZdOqO5iyo2_pKylhVT8r10", {
+                method: "POST",
+                body: JSON.stringify({ 
+                    point: point, 
+                    northing: northing, 
+                    easting: easting, 
+                    elevation: elevation, 
+                    description: description, 
+                    location: location 
+                }),
+                headers: { "Content-Type": "application/json" }
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('message').innerText = "تم الحفظ بنجاح!";
+                document.getElementById('dataForm').reset();
+            })
+            .catch(error => {
+                document.getElementById('message').innerText = "حدث خطأ أثناء الحفظ.";
+            });
+        });
+    </script>
+</body>
+</html>
